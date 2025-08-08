@@ -1,10 +1,22 @@
 // server/routes/userRoutes.ts
-import express from 'express';
-import { getUsers, addUser } from '../controllers/userController.js'; // 👈 must include `.js` when using ESM
+import express, { Router } from 'express';
+import { getUsers, addUser } from '../controllers/userController';
 
-const router = express.Router();
+const router: Router = express.Router();
 
-router.get('/', getUsers);
-router.post('/', addUser);
+// Route definitions (DRY)
+const routes: {
+  method: 'get' | 'post' | 'put' | 'delete';
+  path: string;
+  handler: (req: express.Request, res: express.Response) => void | Promise<void>;
+}[] = [
+  { method: 'get', path: '/', handler: getUsers },
+  { method: 'post', path: '/', handler: addUser },
+];
+
+// Register routes
+routes.forEach(({ method, path, handler }) => {
+  router[method](path, handler);
+});
 
 export default router;

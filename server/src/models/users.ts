@@ -1,4 +1,3 @@
-// server/models/User.ts
 import mongoose, { Document, Schema } from 'mongoose';
 
 // 1. Define TypeScript interface
